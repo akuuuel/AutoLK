@@ -363,18 +363,27 @@ body {
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
-/* PLACEHOLDER STYLING & FOCUS HIDE */
+/* MODERN & ELEGANT PLACEHOLDER STYLING (LOWER OPACITY) */
 input::placeholder,
 textarea::placeholder {
   color: #94a3b8;
-  opacity: 0.45;
-  transition: opacity 0.2s ease, color 0.2s ease;
+  opacity: 0.32;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.2px;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
 }
 
 input:focus::placeholder,
 textarea:focus::placeholder {
   opacity: 0 !important;
   color: transparent !important;
+}
+
+.player-input-table input::placeholder {
+  color: #94a3b8;
+  opacity: 0.32;
+  font-style: italic;
 }
 
 .form-row {
@@ -765,8 +774,11 @@ textarea:focus::placeholder {
   align-items: center;
   gap: 8px;
   color: #6b7280;
+  opacity: 0.35;
   font-size: 13px;
   font-weight: 600;
+  letter-spacing: 0.4px;
+  transition: opacity 0.2s ease;
 }
 
 .mockup-placeholder i {

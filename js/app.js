@@ -325,12 +325,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.lucide) lucide.createIcons();
 
-    // 3. Update Total Pcs field automatically
+    // 3. Update Total Pcs field & summary totals automatically
+    let countPjg = 0, countPdk = 0, countPria = 0, countWanita = 0, countLogo = 0, countNoLogo = 0;
+    playersData.forEach((p) => {
+      if (p.sleeve === 'Panjang') countPjg++; else countPdk++;
+      if (p.gender === 'Perempuan') countWanita++; else countPria++;
+      if (p.logo !== false) countLogo++; else countNoLogo++;
+    });
+
     if (totalQty > 0) {
       if (inputTotalPcs) {
         inputTotalPcs.value = `${totalQty} PCS`;
         inputTotalPcs.dispatchEvent(new Event('input'));
       }
+      const inpLengan = document.getElementById('input-ket-lengan');
+      const inpGender = document.getElementById('input-ket-gender');
+      const inpLogo = document.getElementById('input-ket-logo');
+      if (inpLengan) { inpLengan.value = `PENDEK: ${countPdk} | PANJANG: ${countPjg}`; inpLengan.dispatchEvent(new Event('input')); }
+      if (inpGender) { inpGender.value = `LAKI-LAKI: ${countPria} | PEREMPUAN: ${countWanita}`; inpGender.dispatchEvent(new Event('input')); }
+      if (inpLogo) { inpLogo.value = `PAKAI LOGO: ${countLogo} | NON LOGO: ${countNoLogo}`; inpLogo.dispatchEvent(new Event('input')); }
     }
   }
 
