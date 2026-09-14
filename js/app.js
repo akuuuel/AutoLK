@@ -575,30 +575,30 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentZoom = 0.9;
 
   function updateZoom(newZoom) {
-    currentZoom = Math.min(Math.max(newZoom, 0.4), 1.8);
-    scaler.style.transform = `scale(${currentZoom})`;
-    zoomLevelEl.textContent = `${Math.round(currentZoom * 100)}%`;
+    currentZoom = Math.min(Math.max(newZoom, 0.25), 1.8);
+    if (scaler) scaler.style.transform = `scale(${currentZoom})`;
+    document.documentElement.style.setProperty('--canvas-scale', currentZoom);
+    if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(currentZoom * 100)}%`;
+  }
+
+  function autoFitCanvas() {
+    const scrollWrapper = document.getElementById('scroll-wrapper');
+    if (!scrollWrapper) return;
+    const isMobile = window.innerWidth <= 768;
+    const paddingOffset = isMobile ? 8 : 60;
+    const containerWidth = scrollWrapper.clientWidth - paddingOffset;
+    const sheetWidth = 800; // LK sheet width in px
+    const fitZoom = Math.min(Math.max(containerWidth / sheetWidth, 0.25), 1.5);
+    updateZoom(fitZoom);
   }
 
   btnZoomIn.addEventListener('click', () => updateZoom(currentZoom + 0.1));
   btnZoomOut.addEventListener('click', () => updateZoom(currentZoom - 0.1));
-
-  btnZoomFit.addEventListener('click', () => {
-    const scrollWrapper = document.getElementById('scroll-wrapper');
-    const containerWidth = scrollWrapper.clientWidth - 80;
-    const sheetWidth = 800; // LK sheet width in px
-    const fitZoom = containerWidth / sheetWidth;
-    updateZoom(fitZoom);
-  });
+  btnZoomFit.addEventListener('click', autoFitCanvas);
 
   // Initial fit adjustment & responsive resize listener
-  setTimeout(() => {
-    if (btnZoomFit) btnZoomFit.click();
-  }, 100);
-
-  window.addEventListener('resize', () => {
-    if (btnZoomFit) btnZoomFit.click();
-  });
+  setTimeout(autoFitCanvas, 100);
+  window.addEventListener('resize', autoFitCanvas);
 
   // MODAL HANDLERS
   const imageModal = document.getElementById('image-modal');

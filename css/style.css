@@ -363,6 +363,20 @@ body {
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
+/* PLACEHOLDER STYLING & FOCUS HIDE */
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
+  opacity: 0.45;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  opacity: 0 !important;
+  color: transparent !important;
+}
+
 .form-row {
   display: flex;
   gap: 12px;
@@ -1527,8 +1541,21 @@ body {
   }
 
   .canvas-scroll-wrapper {
-    padding: 16px 8px;
-    min-height: 450px;
+    padding: 8px 0px;
+    min-height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: visible;
+    justify-content: center;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .canvas-scaler {
+    margin: 0 auto;
+    transform-origin: top center;
+    margin-bottom: calc(-1131px * (1 - var(--canvas-scale, 0.45)));
+    transition: transform 0.15s ease-out, margin-bottom 0.15s ease-out;
   }
 
   /* Modal Responsiveness */
