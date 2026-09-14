@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
     { input: 'input-ket-kumis', output: 'val-ket-kumis' },
     { input: 'input-ket-bantalan', output: 'val-ket-bantalan' },
     { input: 'input-ket-celana', output: 'val-ket-celana' },
+    { input: 'input-ket-lengan', output: 'val-ket-lengan' },
+    { input: 'input-ket-gender', output: 'val-ket-gender' },
+    { input: 'input-ket-logo', output: 'val-ket-logo' },
     { input: 'input-keterangan', output: 'val-keterangan' },
     { input: 'input-no-order', output: 'val-p2-no-order' },
     { input: 'input-nama-team', output: 'val-p2-nama-team' },
@@ -391,10 +394,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sheetSizeSummary) sheetSizeSummary.innerHTML = summaryHtml;
     if (p2SizeSummary) p2SizeSummary.innerHTML = summaryHtml;
 
-    // 5. Update Total Pcs field automatically
-    if (totalQty > 0 && inputTotalPcs) {
-      inputTotalPcs.value = `${totalQty} PCS`;
-      inputTotalPcs.dispatchEvent(new Event('input'));
+    // 5. Update Total Pcs & Notes fields automatically
+    if (totalQty > 0) {
+      if (inputTotalPcs) {
+        inputTotalPcs.value = `${totalQty} PCS`;
+        inputTotalPcs.dispatchEvent(new Event('input'));
+      }
+      const inpKetLengan = document.getElementById('input-ket-lengan');
+      const inpKetGender = document.getElementById('input-ket-gender');
+      const inpKetLogo = document.getElementById('input-ket-logo');
+
+      if (inpKetLengan) {
+        inpKetLengan.value = `PENDEK: ${grandPdk} | PANJANG: ${grandPjg}`;
+        inpKetLengan.dispatchEvent(new Event('input'));
+      }
+      if (inpKetGender) {
+        inpKetGender.value = `LAKI-LAKI: ${grandPria} | PEREMPUAN: ${grandWanita}`;
+        inpKetGender.dispatchEvent(new Event('input'));
+      }
+      if (inpKetLogo) {
+        inpKetLogo.value = `PAKAI LOGO: ${grandLogo} | NON LOGO: ${grandNoLogo}`;
+        inpKetLogo.dispatchEvent(new Event('input'));
+      }
     }
   }
 
