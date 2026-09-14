@@ -441,28 +441,83 @@ body {
   cursor: pointer;
 }
 
+.btn-pick-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-pick-mobile:hover, .btn-pick-mobile:active {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-1px);
+}
+
 .image-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 8px;
-  padding: 8px;
-  background: rgba(15, 23, 42, 0.6);
-  border-radius: 6px;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  flex-wrap: wrap;
 }
 
 .fit-mode-toggle {
   display: flex;
-  gap: 12px;
-  font-size: 0.78rem;
-}
-
-.fit-mode-toggle label {
-  cursor: pointer;
-  display: flex;
   align-items: center;
   gap: 4px;
+  background: rgba(15, 23, 42, 0.9);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.fit-mode-label {
+  font-size: 0.72rem;
   color: var(--text-muted);
+  font-weight: 600;
+  padding: 0 4px;
+}
+
+.fit-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  min-height: 36px;
+}
+
+.fit-option input[type="radio"] {
+  display: none;
+}
+
+.fit-option.active {
+  background: var(--accent-blue);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
 }
 
 .utility-bar {
@@ -1374,6 +1429,13 @@ body {
 
 /* SMARTPHONES & SMALL TABLETS (Max Width 768px - iPad Portrait & Phones) */
 @media screen and (max-width: 768px) {
+  /* Prevent iOS / Android auto-zoom on input focus */
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 16px !important;
+  }
+
   body {
     height: auto;
     overflow-x: hidden;

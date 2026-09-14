@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Generator LK Baju - AutoLK</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -201,19 +201,32 @@
 
             <div class="form-group">
               <label>Upload Mockup Baju</label>
+              <!-- Hidden input file -->
+              <input type="file" id="input-mockup-file" accept="image/*" style="display: none;">
+              
+              <!-- Mobile & Desktop Upload Buttons -->
+              <button type="button" id="btn-pick-file" class="btn btn-pick-mobile">
+                <i data-lucide="image-plus"></i> Pilih / Ambil Foto Baju
+              </button>
+
               <div class="dropzone" id="dropzone">
                 <i data-lucide="upload-cloud" class="dropzone-icon"></i>
-                <p>Klik atau Drag & Drop Gambar Baju</p>
-                <span class="file-info">PNG, JPG, WEBP (Latar belakang transparan lebih disukai)</span>
-                <input type="file" id="input-mockup-file" accept="image/*" class="file-input">
+                <p>Drag &amp; Drop Gambar Baju di sini</p>
+                <span class="file-info">PNG, JPG, WEBP (Latar transparan lebih disukai)</span>
               </div>
+
               <div class="image-actions hidden" id="image-actions">
                 <button type="button" id="btn-remove-image" class="btn btn-danger-sm">
                   <i data-lucide="trash-2"></i> Hapus Gambar
                 </button>
                 <div class="fit-mode-toggle">
-                  <label><input type="radio" name="fit-mode" value="contain" checked> Contain</label>
-                  <label><input type="radio" name="fit-mode" value="cover"> Cover</label>
+                  <span class="fit-mode-label">Mode Tampilan:</span>
+                  <label class="fit-option active" id="fit-option-contain">
+                    <input type="radio" name="fit-mode" value="contain" checked> Contain
+                  </label>
+                  <label class="fit-option" id="fit-option-cover">
+                    <input type="radio" name="fit-mode" value="cover"> Cover
+                  </label>
                 </div>
               </div>
             </div>
@@ -613,16 +626,19 @@
         <button id="modal-close" class="modal-close-btn">&times;</button>
       </div>
       <div class="modal-body">
-        <p class="modal-desc">Gambar LK siap disimpan atau disalin:</p>
+        <p class="modal-desc">Gambar LK berhasil dibuat! Sentuh &amp; tahan gambar untuk simpan langsung ke Galeri (HP), atau gunakan tombol di bawah:</p>
         <div class="generated-img-wrapper">
           <img id="modal-generated-img" src="" alt="Hasil LK Baju">
         </div>
       </div>
       <div class="modal-footer">
         <a id="modal-download-btn" href="#" download="LK_BAJU.png" class="btn btn-primary btn-lg">
-          <i data-lucide="download"></i> Download File Gambar (.PNG)
+          <i data-lucide="download"></i> Download Gambar (.PNG)
         </a>
-        <button id="modal-copy-btn" class="btn btn-secondary">
+        <button id="modal-share-btn" class="btn btn-secondary hidden">
+          <i data-lucide="share-2"></i> Bagikan / Simpan
+        </button>
+        <button id="modal-copy-btn" class="btn btn-outline">
           <i data-lucide="copy"></i> Salin Gambar
         </button>
       </div>

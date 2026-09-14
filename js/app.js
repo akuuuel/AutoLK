@@ -99,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. IMAGE UPLOAD & DROPZONE LOGIC
   const dropzone = document.getElementById('dropzone');
+  const btnPickFile = document.getElementById('btn-pick-file');
   const fileInput = document.getElementById('input-mockup-file');
   const mockupImg = document.getElementById('mockup-img');
   const mockupPlaceholder = document.getElementById('mockup-placeholder');
@@ -119,6 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
     reader.readAsDataURL(file);
   }
 
+  // Trigger file input when mobile pick button or dropzone is tapped/clicked
+  if (btnPickFile) {
+    btnPickFile.addEventListener('click', () => fileInput.click());
+  }
+
+  if (dropzone) {
+    dropzone.addEventListener('click', () => fileInput.click());
+  }
+
   fileInput.addEventListener('change', (e) => {
     if (e.target.files && e.target.files[0]) {
       handleImageFile(e.target.files[0]);
@@ -126,18 +136,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   ['dragenter', 'dragover'].forEach(eventName => {
-    dropzone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      dropzone.classList.add('dragover');
-    });
+    if (dropzone) {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+    }
   });
 
   ['dragleave', 'drop'].forEach(eventName => {
-    dropzone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-    });
+    if (dropzone) {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+    }
   });
+
+  if (dropzone) {
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleImageFile(e.dataTransfer.files[0]);
+      }
+    });
+  }
 
   // Support pasting image directly from clipboard (Ctrl + V)
   document.addEventListener('paste', (e) => {
@@ -147,18 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (items[i].type.indexOf('image') !== -1) {
           const blob = items[i].getAsFile();
           handleImageFile(blob);
-          // Switch to mockup tab automatically when image is pasted
           const mockupTabBtn = document.querySelector('[data-tab="tab-mockup"]');
           if (mockupTabBtn) mockupTabBtn.click();
           break;
         }
       }
-    }
-  });
-
-  dropzone.addEventListener('drop', (e) => {
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleImageFile(e.dataTransfer.files[0]);
     }
   });
 
@@ -170,13 +185,25 @@ document.addEventListener('DOMContentLoaded', () => {
     imageActions.classList.add('hidden');
   });
 
+  // Fit Mode Toggle (Contain vs Cover)
+  function updateFitModeUI(val) {
+    const containOpt = document.getElementById('fit-option-contain');
+    const coverOpt = document.getElementById('fit-option-cover');
+
+    if (val === 'cover') {
+      mockupImg.classList.add('fit-cover');
+      if (coverOpt) coverOpt.classList.add('active');
+      if (containOpt) containOpt.classList.remove('active');
+    } else {
+      mockupImg.classList.remove('fit-cover');
+      if (containOpt) containOpt.classList.add('active');
+      if (coverOpt) coverOpt.classList.remove('active');
+    }
+  }
+
   fitRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
-      if (e.target.value === 'cover') {
-        mockupImg.classList.add('fit-cover');
-      } else {
-        mockupImg.classList.remove('fit-cover');
-      }
+      updateFitModeUI(e.target.value);
     });
   });
 
@@ -457,9 +484,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalCloseBtn = document.getElementById('modal-close');
   const modalGeneratedImg = document.getElementById('modal-generated-img');
   const modalDownloadBtn = document.getElementById('modal-download-btn');
+  const modalShareBtn = document.getElementById('modal-share-btn');
   const modalCopyBtn = document.getElementById('modal-copy-btn');
 
   let currentCanvasBlob = null;
+  let currentBlobUrl = null;
 
   if (modalCloseBtn) {
     modalCloseBtn.addEventListener('click', () => {
@@ -471,6 +500,27 @@ document.addEventListener('DOMContentLoaded', () => {
     imageModal.addEventListener('click', (e) => {
       if (e.target === imageModal) {
         imageModal.classList.add('hidden');
+      }
+    });
+  }
+
+  if (modalShareBtn && navigator.share) {
+    modalShareBtn.classList.remove('hidden');
+    modalShareBtn.addEventListener('click', async () => {
+      if (!currentCanvasBlob) return;
+      try {
+        const file = new File([currentCanvasBlob], 'LK_BAJU.png', { type: 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: 'LK Baju',
+            text: 'Lembar Kerja Produksi Baju AutoLK',
+            files: [file]
+          });
+        } else if (currentBlobUrl) {
+          window.open(currentBlobUrl, '_blank');
+        }
+      } catch (e) {
+        console.log('Share canceled or unsupported', e);
       }
     });
   }
@@ -526,8 +576,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
+      // Safe render scale for mobile memory compatibility
+      const renderScale = window.innerWidth <= 768 ? 2 : 2.5;
+
       const canvas = await html2canvas(targetEl, {
-        scale: 3, // 3x HD rendering
+        scale: renderScale,
         useCORS: true,
         allowTaint: false,
         backgroundColor: '#ffffff',
@@ -535,35 +588,39 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const mimeType = format === 'jpg' ? 'image/jpeg' : 'image/png';
-      const dataUrl = canvas.toDataURL(mimeType, 0.95);
       const filename = getExportFilename(targetPageId, format);
+      const dataUrl = canvas.toDataURL(mimeType, 0.95);
 
-      // Save blob for clipboard copy
+      // Convert canvas to Blob for reliable browser download & mobile share
       canvas.toBlob((blob) => {
-        if (blob) currentCanvasBlob = blob;
-      }, mimeType);
+        if (!blob) return;
+        currentCanvasBlob = blob;
 
-      // 1. Direct browser download trigger
-      const link = document.createElement('a');
-      link.download = filename;
-      link.href = dataUrl;
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(() => {
-        if (document.body.contains(link)) {
-          document.body.removeChild(link);
-        }
-      }, 300);
+        if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = URL.createObjectURL(blob);
 
-      // 2. Show Modal Preview
-      if (modalGeneratedImg && imageModal) {
-        modalGeneratedImg.src = dataUrl;
-        if (modalDownloadBtn) {
-          modalDownloadBtn.href = dataUrl;
-          modalDownloadBtn.download = filename;
+        // 1. Trigger automatic file download
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = currentBlobUrl;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+          if (document.body.contains(link)) {
+            document.body.removeChild(link);
+          }
+        }, 500);
+
+        // 2. Display Modal Preview
+        if (modalGeneratedImg && imageModal) {
+          modalGeneratedImg.src = dataUrl;
+          if (modalDownloadBtn) {
+            modalDownloadBtn.href = currentBlobUrl;
+            modalDownloadBtn.download = filename;
+          }
+          imageModal.classList.remove('hidden');
         }
-        imageModal.classList.remove('hidden');
-      }
+      }, mimeType, 0.95);
 
     } catch (err) {
       console.error('Export Error:', err);
