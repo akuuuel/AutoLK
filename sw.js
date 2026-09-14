@@ -3,7 +3,7 @@
    Strategi: Cache First + Network Fallback
    ========================================================================== */
 
-const CACHE_NAME = 'autolk-v7';
+const CACHE_NAME = 'autolk-v8';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

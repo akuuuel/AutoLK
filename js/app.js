@@ -476,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
-    if (sheetSizeSummary) sheetSizeSummary.innerHTML = summaryHtml;
     if (p2SizeSummary) p2SizeSummary.innerHTML = summaryHtml;
 
     // 5. Update Total Pcs & Notes fields automatically
