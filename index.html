@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator LK Baju - AutoLK</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- SIDEBAR FORM CONTROLS -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <i data-lucide="shirt" class="brand-icon"></i>
+          <div>
+            <h1>AutoLK Generator</h1>
+            <p>Lembar Kerja Produksi Baju</p>
+          </div>
+        </div>
+        <div class="action-buttons-top">
+          <button id="btn-export-p1" class="btn btn-download-main">
+            <i data-lucide="file-text"></i> DOWNLOAD HAL 1 (LK UTAMA)
+          </button>
+          <button id="btn-export-p2" class="btn btn-secondary">
+            <i data-lucide="users"></i> DOWNLOAD HAL 2 (DETAIL NAMA)
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-content">
+        <!-- TAB NAVIGATION -->
+        <nav class="tabs">
+          <button class="tab-btn active" data-tab="tab-order">
+            <i data-lucide="clipboard-list"></i> Order
+          </button>
+          <button class="tab-btn" data-tab="tab-produksi">
+            <i data-lucide="cog"></i> Produksi
+          </button>
+          <button class="tab-btn" data-tab="tab-mockup">
+            <i data-lucide="image"></i> Mockup
+          </button>
+          <button class="tab-btn" data-tab="tab-nama-size">
+            <i data-lucide="users"></i> Nama & Size
+          </button>
+          <button class="tab-btn" data-tab="tab-ket">
+            <i data-lucide="file-text"></i> Ket.
+          </button>
+        </nav>
+
+        <!-- FORM SECTIONS -->
+        <form id="lk-form" class="form-container">
+          
+          <!-- TAB 1: INFORMASI ORDER -->
+          <div class="tab-pane active" id="tab-order">
+            <div class="section-title">
+              <i data-lucide="palette"></i> Judul & Tema Warna LK
+            </div>
+
+            <div class="form-row">
+              <div class="form-group flex-2">
+                <label for="input-judul-lk">Judul LK (Header)</label>
+                <input type="text" id="input-judul-lk" value="LK BAJU" placeholder="LK BAJU">
+              </div>
+              <div class="form-group flex-1">
+                <label for="input-warna-lk">Warna LK</label>
+                <div class="color-picker-wrapper">
+                  <input type="color" id="input-warna-lk" value="#0c3f87">
+                  <span class="color-val" id="color-hex-text">#0c3f87</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="color-presets">
+              <span class="preset-label">Preset Warna:</span>
+              <button type="button" class="btn-color-preset active" data-color="#0c3f87" style="background:#0c3f87" title="Biru Asli Referensi"></button>
+              <button type="button" class="btn-color-preset" data-color="#1e3a8a" style="background:#1e3a8a" title="Biru Navy Dark"></button>
+              <button type="button" class="btn-color-preset" data-color="#b91c1c" style="background:#b91c1c" title="Merah Sublim"></button>
+              <button type="button" class="btn-color-preset" data-color="#047857" style="background:#047857" title="Hijau Produksi"></button>
+              <button type="button" class="btn-color-preset" data-color="#18181b" style="background:#18181b" title="Hitam"></button>
+            </div>
+
+            <div class="section-title margin-top-md">
+              <i data-lucide="info"></i> Informasi Order (Kiri)
+            </div>
+            
+            <div class="form-group">
+              <label for="input-no-order">No. Order</label>
+              <input type="text" id="input-no-order" value="#SEPTEMBER_13" placeholder="#SEPTEMBER_13">
+            </div>
+
+            <div class="form-group">
+              <label for="input-nama-team">Nama Team</label>
+              <input type="text" id="input-nama-team" value="SMP ASKARI PALLANGA" placeholder="SMP ASKARI PALLANGA">
+            </div>
+
+            <div class="form-group">
+              <label for="input-admin-cs">Admin / CS</label>
+              <input type="text" id="input-admin-cs" value="AAN GANTENG123" placeholder="AAN GANTENG123">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-designer">Designer</label>
+                <input type="text" id="input-designer" value="-" placeholder="-">
+              </div>
+              <div class="form-group">
+                <label for="input-layouter">Layouter</label>
+                <input type="text" id="input-layouter" value="IKMAL" placeholder="IKMAL">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="input-no-nota">No. Nota</label>
+              <input type="text" id="input-no-nota" value="" placeholder="Contoh: 001/INV/2026">
+            </div>
+          </div>
+
+          <!-- TAB 2: DETAIL PRODUKSI -->
+          <div class="tab-pane" id="tab-produksi">
+            <div class="section-title">
+              <i data-lucide="cpu"></i> Spesiﬁkasi & Tanggal (Kanan)
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-mesin-icc">Mesin / ICC</label>
+                <input type="text" id="input-mesin-icc" value="ICC BARU / LAMA" placeholder="ICC BARU / LAMA">
+              </div>
+              <div class="form-group">
+                <label for="input-jenis-sublim">Jenis Sublim</label>
+                <input type="text" id="input-jenis-sublim" value="atasan" placeholder="atasan">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-tgl-masuk">Tgl Masuk Order</label>
+                <div class="input-with-action">
+                  <input type="text" id="input-tgl-masuk" value="13 SEPTEMBER 2026">
+                  <button type="button" class="btn-today" data-target="input-tgl-masuk">Today</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="input-tgl-design">Tgl Design</label>
+                <input type="text" id="input-tgl-design" value="-">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-tgl-layout">Tgl Layout</label>
+                <input type="text" id="input-tgl-layout" value="14 SEPTEMBER 2026">
+              </div>
+              <div class="form-group">
+                <label for="input-tgl-print">Tgl Print</label>
+                <input type="text" id="input-tgl-print" value="15 SEPTEMBER 2026">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-tgl-press">Tgl Press</label>
+                <input type="text" id="input-tgl-press" value="16 SEPTEMBER 2026">
+              </div>
+              <div class="form-group">
+                <label for="input-tgl-jahit">Tgl Jahit</label>
+                <input type="text" id="input-tgl-jahit" value="16 SEPTEMBER 2026">
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: MOCKUP & DETIL DESAIN -->
+          <div class="tab-pane" id="tab-mockup">
+            <div class="section-title">
+              <i data-lucide="image"></i> Gambar Mockup & Bahan
+            </div>
+
+            <div class="form-group">
+              <label>Upload Mockup Baju</label>
+              <div class="dropzone" id="dropzone">
+                <i data-lucide="upload-cloud" class="dropzone-icon"></i>
+                <p>Klik atau Drag & Drop Gambar Baju</p>
+                <span class="file-info">PNG, JPG, WEBP (Latar belakang transparan lebih disukai)</span>
+                <input type="file" id="input-mockup-file" accept="image/*" class="file-input">
+              </div>
+              <div class="image-actions hidden" id="image-actions">
+                <button type="button" id="btn-remove-image" class="btn btn-danger-sm">
+                  <i data-lucide="trash-2"></i> Hapus Gambar
+                </button>
+                <div class="fit-mode-toggle">
+                  <label><input type="radio" name="fit-mode" value="contain" checked> Contain</label>
+                  <label><input type="radio" name="fit-mode" value="cover"> Cover</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="input-kerah">Detail Kerah / Model</label>
+              <input type="text" id="input-kerah" value="KERAH V NARROW" placeholder="KERAH V NARROW">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-total-pcs">Total (PCS)</label>
+                <input type="text" id="input-total-pcs" value="42 PCS" placeholder="42 PCS">
+              </div>
+              <div class="form-group">
+                <label for="input-kain">Jenis Kain / Bahan</label>
+                <input type="text" id="input-kain" value="KAIN MILANO" placeholder="KAIN MILANO">
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: RINCIAN NAMA & UKURAN -->
+          <div class="tab-pane" id="tab-nama-size">
+            <div class="section-title">
+              <i data-lucide="zap"></i> Fast Import (Tempel Data Excel/WA)
+            </div>
+            <div class="form-group">
+              <label for="input-quick-paste">Format: Nama, No, Size (1 Per Baris)</label>
+              <textarea id="input-quick-paste" rows="3" placeholder="Contoh:&#10;AAN, 10, L&#10;IKMAL, 7, XL&#10;RAYYAN, 9, M"></textarea>
+            </div>
+            <div class="form-row margin-bottom-sm">
+              <button type="button" id="btn-parse-quick" class="btn btn-sm btn-outline flex-1">
+                <i data-lucide="download-cloud"></i> Impor Data Teks
+              </button>
+              <button type="button" id="btn-add-row" class="btn btn-sm btn-outline flex-1">
+                <i data-lucide="plus"></i> Tambah Baris
+              </button>
+            </div>
+
+            <div class="section-title margin-top-md">
+              <i data-lucide="users"></i> Daftar Pemesan & Size
+            </div>
+
+            <div class="player-table-container">
+              <table class="player-input-table">
+                <thead>
+                  <tr>
+                    <th style="width: 32px;">No</th>
+                    <th>Nama Player</th>
+                    <th style="width: 65px;">No</th>
+                    <th style="width: 80px;">Size</th>
+                    <th style="width: 32px;"></th>
+                  </tr>
+                </thead>
+                <tbody id="player-table-body">
+                  <!-- Dynamic Rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="size-summary-box margin-top-sm">
+              <div class="summary-header">
+                <i data-lucide="calculator"></i> Ringkasan Total Ukuran
+              </div>
+              <div id="size-summary-list" class="summary-badges">
+                <span class="badge-empty">Belum ada data player</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: KETERANGAN TAMBAHAN -->
+          <div class="tab-pane" id="tab-ket">
+            <div class="section-title">
+              <i data-lucide="sliders"></i> Catatan & Spesifikasi Bawah
+            </div>
+
+            <div class="form-group">
+              <label for="input-ket-kumis">Ket. Kumis</label>
+              <input type="text" id="input-ket-kumis" value="IKUT WARNA" placeholder="IKUT WARNA">
+            </div>
+
+            <div class="form-group">
+              <label for="input-ket-bantalan">Ket. Bantalan</label>
+              <input type="text" id="input-ket-bantalan" value="rayyan store" placeholder="rayyan store">
+            </div>
+
+            <div class="form-group">
+              <label for="input-ket-celana">Ket. Celana</label>
+              <input type="text" id="input-ket-celana" value="-" placeholder="-">
+            </div>
+
+            <div class="form-group">
+              <label for="input-keterangan">Keterangan Tambahan / Note</label>
+              <textarea id="input-keterangan" rows="4" placeholder="Catatan instruksi khusus produksi..."></textarea>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- UTILITY ACTIONS -->
+        <div class="utility-bar">
+          <button type="button" id="btn-save-draft" class="btn btn-sm btn-outline">
+            <i data-lucide="save"></i> Simpan Draft
+          </button>
+          <button type="button" id="btn-load-draft" class="btn btn-sm btn-outline">
+            <i data-lucide="folder-open"></i> Muat Draft
+          </button>
+          <button type="button" id="btn-reset" class="btn btn-sm btn-danger-outline">
+            <i data-lucide="refresh-cw"></i> Reset Form
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN PREVIEW CANVAS AREA -->
+    <main class="preview-area">
+      <!-- PREVIEW TOOLBAR -->
+      <div class="preview-toolbar">
+        <div class="zoom-controls">
+          <button id="btn-zoom-out" title="Zoom Out"><i data-lucide="zoom-out"></i></button>
+          <span id="zoom-level">100%</span>
+          <button id="btn-zoom-in" title="Zoom In"><i data-lucide="zoom-in"></i></button>
+          <button id="btn-zoom-fit" title="Fit Window"><i data-lucide="maximize-2"></i></button>
+        </div>
+        <div class="preview-status">
+          <i data-lucide="eye"></i> Live Preview A4
+        </div>
+      </div>
+
+      <!-- SCROLLABLE CONTAINER FOR CANVAS -->
+      <div class="canvas-scroll-wrapper" id="scroll-wrapper">
+        <div class="canvas-scaler" id="canvas-scaler">
+          
+          <!-- PRINTABLE / RENDERABLE SHEET -->
+          <div id="lk-sheet" class="lk-sheet">
+            
+            <!-- HEADER BAR -->
+            <header class="sheet-header">
+              <div class="header-right-banner" id="sheet-header-banner">
+                <span id="val-judul-lk">LK BAJU</span>
+              </div>
+            </header>
+
+            <!-- TOP TABLES SECTION -->
+            <section class="top-tables-grid">
+              <!-- LEFT TABLE (ORDER INFO) -->
+              <table class="lk-table left-table">
+                <tbody>
+                  <tr>
+                    <td class="lbl">NO. ORDER</td>
+                    <td class="val" id="val-no-order">#SEPTEMBER_13</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">NAMA TEAM</td>
+                    <td class="val" id="val-nama-team">SMP ASKARI PALLANGA</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">ADMIN / CS</td>
+                    <td class="val" id="val-admin-cs">AAN GANTENG123</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">DESIGNER</td>
+                    <td class="val" id="val-designer">-</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">LAYOUTER</td>
+                    <td class="val" id="val-layouter">IKMAL</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">NO. NOTA</td>
+                    <td class="val" id="val-no-nota"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- RIGHT TABLE (PRODUKSI INFO) -->
+              <table class="lk-table right-table">
+                <tbody>
+                  <tr>
+                    <td class="lbl">MESIN / ICC</td>
+                    <td class="val" id="val-mesin-icc">ICC BARU / LAMA</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">JENIS SUBLIM</td>
+                    <td class="val" id="val-jenis-sublim">atasan</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">TGL MASUK ORDE</td>
+                    <td class="val" id="val-tgl-masuk">13 SEPTEMBER 2026</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">TGL DESIGN</td>
+                    <td class="val" id="val-tgl-design">-</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">TGL LAYOUT</td>
+                    <td class="val" id="val-tgl-layout">14 SEPTEMBER 2026</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">TGL PRINT</td>
+                    <td class="val" id="val-tgl-print">15 SEPTEMBER 2026</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">TGL PRESS</td>
+                    <td class="val" id="val-tgl-press">16 SEPTEMBER 2026</td>
+                  </tr>
+                  <tr>
+                    <td class="lbl">TGL JAHIT</td>
+                    <td class="val" id="val-tgl-jahit">16 SEPTEMBER 2026</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <!-- MIDDLE MOCKUP & TOTAL SECTION -->
+            <section class="middle-product-card">
+              <div class="product-content-box">
+                <div class="mockup-frame">
+                  <div class="mockup-bg" id="mockup-container">
+                    <img id="mockup-img" src="" alt="Mockup Jersey" class="hidden">
+                    <div class="mockup-placeholder" id="mockup-placeholder">
+                      <i data-lucide="shirt"></i>
+                      <span>Upload Gambar Mockup Baju</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="collar-detail-box">
+                  <span id="val-kerah">KERAH V NARROW</span>
+                </div>
+              </div>
+
+              <div class="total-row">
+                <span>TOTAL : <strong id="val-total-pcs">42 PCS</strong></span>
+              </div>
+            </section>
+
+            <!-- RINGKASAN UKURAN BAR SECTION -->
+            <div class="sheet-size-summary margin-top-md" id="sheet-size-summary">
+              <!-- Auto Aggregation Badges -->
+            </div>
+
+            <!-- FABRIC TYPE TITLE -->
+            <div class="fabric-title">
+              <span id="val-kain">KAIN MILANO</span>
+            </div>
+
+            <!-- OPERATOR SIGNATURE CARDS (6 BOXES) -->
+            <section class="op-grid">
+              <div class="op-box">
+                <div class="op-header">OP. CETAK</div>
+                <div class="op-body"></div>
+                <div class="op-footer">NAMA / TGL / PARAF</div>
+              </div>
+              <div class="op-box">
+                <div class="op-header">OP. PRESS</div>
+                <div class="op-body"></div>
+                <div class="op-footer">NAMA / TGL / PARAF</div>
+              </div>
+              <div class="op-box">
+                <div class="op-header">OP. CUTTING</div>
+                <div class="op-body"></div>
+                <div class="op-footer">NAMA / TGL / PARAF</div>
+              </div>
+              <div class="op-box">
+                <div class="op-header">SORTIR</div>
+                <div class="op-body"></div>
+                <div class="op-footer">NAMA / TGL / PARAF</div>
+              </div>
+              <div class="op-box">
+                <div class="op-header">JAHIT</div>
+                <div class="op-body"></div>
+                <div class="op-footer">NAMA / TGL / PARAF</div>
+              </div>
+              <div class="op-box">
+                <div class="op-header">QUALITY CONTROL</div>
+                <div class="op-body"></div>
+                <div class="op-footer">NAMA / TGL / PARAF</div>
+              </div>
+            </section>
+
+            <!-- BOTTOM NOTES TABLE -->
+            <section class="bottom-notes-section">
+              <div class="notes-grid">
+                <table class="lk-table notes-table">
+                  <tbody>
+                    <tr>
+                      <td class="lbl">KET. KUMIS</td>
+                      <td class="val" id="val-ket-kumis">IKUT WARNA</td>
+                    </tr>
+                    <tr>
+                      <td class="lbl">KET. BANTALAN</td>
+                      <td class="val" id="val-ket-bantalan">rayyan store</td>
+                    </tr>
+                    <tr>
+                      <td class="lbl">KET. CELANA</td>
+                      <td class="val" id="val-ket-celana">-</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="extra-notes-box">
+                  <div class="notes-header">KETERANGAN</div>
+                  <div class="notes-body" id="val-keterangan"></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- FOOTER ACCENT BAR -->
+            <footer class="sheet-footer"></footer>
+          </div>
+
+          <!-- HALAMAN 2: DETAIL RINCIAN NAMA & UKURAN -->
+          <div id="lk-sheet-page2" class="lk-sheet lk-sheet-page2">
+            <!-- HEADER BAR -->
+            <header class="sheet-header">
+              <div class="header-left-tag">
+                <span>HALAMAN 2 - DETAIL RINCIAN PRODUKSI</span>
+              </div>
+              <div class="header-right-banner" id="p2-header-banner">
+                <span>DETAIL SIZE & NAMA</span>
+              </div>
+            </header>
+
+            <!-- MINI ORDER INFO HEADER GRID -->
+            <section class="p2-info-grid">
+              <div class="p2-info-box">
+                <span class="lbl">NO. ORDER</span>
+                <strong class="val" id="val-p2-no-order">#SEPTEMBER_13</strong>
+              </div>
+              <div class="p2-info-box">
+                <span class="lbl">NAMA TEAM</span>
+                <strong class="val" id="val-p2-nama-team">SMP ASKARI PALLANGA</strong>
+              </div>
+              <div class="p2-info-box">
+                <span class="lbl">ADMIN / CS</span>
+                <strong class="val" id="val-p2-admin-cs">AAN GANTENG123</strong>
+              </div>
+              <div class="p2-info-box">
+                <span class="lbl">TOTAL ORDER</span>
+                <strong class="val" id="val-p2-total-pcs">42 PCS</strong>
+              </div>
+            </section>
+
+            <!-- FULL PLAYER LIST TABLE SECTION -->
+            <section class="p2-player-section">
+              <div class="p2-table-title">
+                <span>LAMPIRAN RINCIAN NAMA PLAYER & NO. PUNGGUNG</span>
+              </div>
+              <table class="p2-player-table">
+                <thead>
+                  <tr>
+                    <th style="width: 45px;">NO</th>
+                    <th>NAMA PLAYER / PEMESAN</th>
+                    <th style="width: 140px;">NO. PUNGGUNG</th>
+                    <th style="width: 100px;">UKURAN / SIZE</th>
+                  </tr>
+                </thead>
+                <tbody id="p2-player-table-body">
+                  <!-- Dynamic Rows -->
+                </tbody>
+              </table>
+            </section>
+
+            <!-- SIZE BREAKDOWN BAR -->
+            <div class="p2-size-summary" id="p2-size-summary">
+              <!-- Auto Aggregation -->
+            </div>
+
+            <!-- PAGE 2 APPROVAL FOOTER -->
+            <section class="p2-signature-section">
+              <div class="p2-sign-box">
+                <div class="sign-header">CHECKLIST SORTIR / PACKING</div>
+                <div class="sign-body"></div>
+                <div class="sign-footer">NAMA / TGL / PARAF</div>
+              </div>
+              <div class="p2-sign-box">
+                <div class="sign-header">QUALITY CONTROL (QC)</div>
+                <div class="sign-body"></div>
+                <div class="sign-footer">NAMA / TGL / PARAF</div>
+              </div>
+            </section>
+
+            <!-- FOOTER ACCENT BAR -->
+            <footer class="sheet-footer"></footer>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL PREVIEW RESULT -->
+  <div id="image-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i data-lucide="image"></i> Hasil Gambar LK Baju</h3>
+        <button id="modal-close" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Gambar LK siap disimpan atau disalin:</p>
+        <div class="generated-img-wrapper">
+          <img id="modal-generated-img" src="" alt="Hasil LK Baju">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a id="modal-download-btn" href="#" download="LK_BAJU.png" class="btn btn-primary btn-lg">
+          <i data-lucide="download"></i> Download File Gambar (.PNG)
+        </a>
+        <button id="modal-copy-btn" class="btn btn-secondary">
+          <i data-lucide="copy"></i> Salin Gambar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUNDLED LIBRARIES -->
+  <script src="html2canvas.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
