@@ -3,13 +3,13 @@
    Strategi: Network First + Cache Fallback
    ========================================================================== */
 
-const CACHE_NAME = 'autolk-v10';
+const CACHE_NAME = 'autolk-v11';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/css/style.css?v=10',
-  '/js/app.js?v=10',
+  '/css/style.css?v=11',
+  '/js/app.js?v=11',
   '/html2canvas.min.js',
   '/icons/icon-192.png',
   '/icons/icon-512.png'

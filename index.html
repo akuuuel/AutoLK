@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/style.css?v=10">
+  <link rel="stylesheet" href="css/style.css?v=11">
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
@@ -607,11 +607,6 @@
               </table>
             </section>
 
-            <!-- SIZE BREAKDOWN BAR -->
-            <div class="p2-size-summary" id="p2-size-summary">
-              <!-- Auto Aggregation -->
-            </div>
-
             <!-- PAGE 2 APPROVAL FOOTER -->
             <section class="p2-signature-section">
               <div class="p2-sign-box">
@@ -664,13 +659,13 @@
 
   <!-- BUNDLED LIBRARIES -->
   <script src="html2canvas.min.js"></script>
-  <script src="js/app.js?v=10"></script>
+  <script src="js/app.js?v=11"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=10')
+        navigator.serviceWorker.register('./sw.js?v=11')
           .then((reg) => {
             reg.update();
             console.log('[AutoLK] Service Worker registered & updated:', reg.scope);
