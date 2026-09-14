@@ -238,9 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. DAFTAR NAMA & SIZE MANAGEMENT LOGIC
   const playerTableBody = document.getElementById('player-table-body');
   const p2PlayerBody = document.getElementById('p2-player-table-body');
-  const sheetSizeSummary = document.getElementById('sheet-size-summary');
-  const p2SizeSummary = document.getElementById('p2-size-summary');
-  const sizeSummaryList = document.getElementById('size-summary-list');
   const btnAddRow = document.getElementById('btn-add-row');
   const btnParseQuick = document.getElementById('btn-parse-quick');
   const inputQuickPaste = document.getElementById('input-quick-paste');
@@ -258,29 +255,12 @@ document.addEventListener('DOMContentLoaded', () => {
     playerTableBody.innerHTML = '';
     p2PlayerBody.innerHTML = '';
 
-    const sizeMap = {};
     let totalQty = playersData.length;
-    let grandPjg = 0, grandPdk = 0, grandPria = 0, grandWanita = 0, grandLogo = 0, grandNoLogo = 0;
 
     playersData.forEach((player, idx) => {
-      const sizeVal = (player.size || 'M').toUpperCase();
       const sleeveVal = player.sleeve || 'Pendek';
       const genderVal = player.gender || 'Laki-Laki';
       const isLogo = player.logo !== false;
-
-      if (!sizeMap[sizeVal]) {
-        sizeMap[sizeVal] = { total: 0, pjg: 0, pdk: 0, pria: 0, wanita: 0, logo: 0, nologo: 0 };
-      }
-      sizeMap[sizeVal].total += 1;
-
-      if (sleeveVal === 'Panjang') { sizeMap[sizeVal].pjg++; grandPjg++; }
-      else { sizeMap[sizeVal].pdk++; grandPdk++; }
-
-      if (genderVal === 'Perempuan') { sizeMap[sizeVal].wanita++; grandWanita++; }
-      else { sizeMap[sizeVal].pria++; grandPria++; }
-
-      if (isLogo) { sizeMap[sizeVal].logo++; grandLogo++; }
-      else { sizeMap[sizeVal].nologo++; grandNoLogo++; }
 
       // 1. Sidebar Input Row
       const trInput = document.createElement('tr');
@@ -345,8 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.lucide) lucide.createIcons();
 
-    // 3. Update Total Pcs field automatically & Purge any size breakdown table elements from DOM
-    document.querySelectorAll('.size-table-wrapper, #sheet-size-summary, #p2-size-summary, .p2-size-summary, .sheet-size-summary, .size-summary-box, .lk-size-breakdown-table').forEach(el => el.remove());
+    // 3. Update Total Pcs field automatically
     if (totalQty > 0) {
       if (inputTotalPcs) {
         inputTotalPcs.value = `${totalQty} PCS`;
