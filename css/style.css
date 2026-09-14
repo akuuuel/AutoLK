@@ -1351,93 +1351,132 @@ textarea:focus::placeholder {
   text-align: left;
 }
 
-/* SHEET CANVAS SIZE SUMMARY BOX (PAGE 1 & PAGE 2) */
+/* ULTRA-CLEAR SIZE BREAKDOWN TABLE SYSTEM */
 .sheet-size-summary,
 .p2-size-summary {
-  background: #ffffff;
-  border: 2px solid var(--lk-border);
-  padding: 0;
-  margin-top: 12px;
-  margin-bottom: 12px;
   width: 100%;
+  box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.size-table-wrapper {
+  width: 100%;
+  border: 2px solid var(--lk-border);
+  background-color: #ffffff;
   box-sizing: border-box;
 }
 
-.sheet-summary-box {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.sheet-summary-header {
+.size-table-title {
   background-color: #0c3f87 !important;
   color: #ffffff !important;
-  padding: 5px 12px;
+  padding: 5px 10px;
+  font-family: 'Oswald', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Oswald', 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-.sheet-summary-header .total-pill {
-  background: #ffffff;
+.size-table-title .total-badge {
+  background-color: #ffffff;
   color: #0c3f87;
   padding: 2px 8px;
   border-radius: 4px;
+  font-size: 11.5px;
   font-weight: 800;
-  font-size: 12px;
 }
 
-.sheet-summary-body {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px 12px;
-  background: #f8fafc;
-  align-items: center;
-}
-
-.sheet-summary-body-empty {
-  padding: 8px 12px;
-  font-size: 11px;
+.size-table-empty {
+  padding: 10px;
+  font-size: 11.5px;
   color: #64748b;
   font-style: italic;
   text-align: center;
+  background-color: #f8fafc;
 }
 
-.sheet-size-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #ffffff;
-  border: 1.5px solid var(--lk-border);
-  border-radius: 5px;
-  padding: 3px 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+.lk-size-breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
 }
 
-.chip-size-name {
-  background: #0c3f87;
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 12px;
-  padding: 1px 6px;
-  border-radius: 3px;
-}
-
-.chip-size-qty {
-  font-weight: 800;
-  font-size: 12.5px;
+.lk-size-breakdown-table th {
+  background-color: #f1f5f9;
   color: #000000;
+  font-weight: 800;
+  padding: 5px 8px;
+  border: 1px solid var(--lk-border);
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 11px;
 }
 
-.chip-size-sub {
-  font-size: 11px;
-  color: #475569;
-  font-weight: 600;
+.lk-size-breakdown-table td {
+  border: 1px solid var(--lk-border);
+  padding: 4px 8px;
+  font-weight: 700;
+  color: #000000;
+  vertical-align: middle;
+  font-size: 11.5px;
+}
+
+.lk-size-breakdown-table td.col-size-code {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+  background-color: #f8fafc;
+}
+
+.lk-size-breakdown-table td.col-size-qty {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.lk-size-breakdown-table td.col-size-detail {
+  text-align: center;
+}
+
+.lk-size-breakdown-table tr.row-grand-total {
+  background-color: #e2e8f0;
+  font-weight: 800;
+}
+
+.lk-size-breakdown-table tr.row-grand-total td {
+  border-top: 2px solid var(--lk-border);
+  font-size: 11.5px;
+}
+
+.badge-sleeve-pdk {
+  color: #1d4ed8;
+  font-weight: 800;
+}
+.badge-sleeve-pjg {
+  color: #b91c1c;
+  font-weight: 800;
+}
+
+.badge-gender-m {
+  color: #0369a1;
+  font-weight: 800;
+}
+.badge-gender-f {
+  color: #be185d;
+  font-weight: 800;
+}
+
+.badge-logo-yes {
+  color: #15803d;
+  font-weight: 800;
+}
+.badge-logo-no {
+  color: #b45309;
+  font-weight: 800;
 }
 
 /* ==========================================================================

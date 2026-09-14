@@ -363,8 +363,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (item.pjg > 0) sleeveStr.push(`${item.pjg} Panjang`);
 
           let genderStr = [];
-          if (item.pria > 0) genderStr.push(`${item.pria} Pria`);
-          if (item.wanita > 0) genderStr.push(`${item.wanita} Wanita`);
+          if (item.pria > 0) genderStr.push(`${item.pria} Laki-Laki`);
+          if (item.wanita > 0) genderStr.push(`${item.wanita} Perempuan`);
 
           let logoStr = [];
           if (item.logo > 0) logoStr.push(`${item.logo} Logo`);
@@ -376,9 +376,9 @@ document.addEventListener('DOMContentLoaded', () => {
               <td class="col-qty"><strong>${item.total}</strong> <small>PCS</small></td>
               <td class="col-detail">
                 <div class="detail-tags">
-                  <span class="tag-chip sleeve">${sleeveStr.join(' + ')}</span>
-                  <span class="tag-chip gender">${genderStr.join(' + ')}</span>
-                  ${logoStr.length > 0 ? `<span class="tag-chip logo">${logoStr.join(' + ')}</span>` : ''}
+                  <span class="tag-chip sleeve">${sleeveStr.join(' • ')}</span>
+                  <span class="tag-chip gender">${genderStr.join(' • ')}</span>
+                  ${logoStr.length > 0 ? `<span class="tag-chip logo">${logoStr.join(' • ')}</span>` : ''}
                 </div>
               </td>
             </tr>
@@ -388,9 +388,9 @@ document.addEventListener('DOMContentLoaded', () => {
         table.innerHTML = `
           <thead>
             <tr>
-              <th>SIZE</th>
-              <th>TOTAL</th>
-              <th>RINCIAN VARIASI</th>
+              <th>UKURAN</th>
+              <th>JUMLAH</th>
+              <th>RINCIAN DETAIL (LENGAN, GENDER, LOGO)</th>
             </tr>
           </thead>
           <tbody>
@@ -405,43 +405,73 @@ document.addEventListener('DOMContentLoaded', () => {
     let summaryHtml = '';
     if (totalQty === 0) {
       summaryHtml = `
-        <div class="sheet-summary-box">
-          <div class="sheet-summary-header">
-            <span>RINCIAN UKURAN &amp; SPESIFIKASI</span>
-            <span class="total-pill">TOTAL: 0 PCS</span>
+        <div class="size-table-wrapper">
+          <div class="size-table-title">
+            <span>TABEL RINCIAN UKURAN &amp; SPESIFIKASI PRODUKSI</span>
+            <span class="total-badge">TOTAL: 0 PCS</span>
           </div>
-          <div class="sheet-summary-body-empty">BELUM ADA DATA PEMESAN</div>
+          <div class="size-table-empty">BELUM ADA DATA PEMESAN</div>
         </div>
       `;
     } else {
-      const sizeItemsHtml = Object.keys(sizeMap).map(s => {
-        const item = sizeMap[s];
-        let subStr = [];
-        if (item.pjg > 0 && item.pdk > 0) subStr.push(`${item.pdk} Pdk, ${item.pjg} Pjg`);
-        else if (item.pjg > 0) subStr.push(`${item.pjg} Pjg`);
-        else if (item.pdk > 0) subStr.push(`${item.pdk} Pdk`);
+      let rowsHtml = '';
+      Object.keys(sizeMap).forEach(size => {
+        const item = sizeMap[size];
 
-        if (item.wanita > 0) subStr.push(`${item.wanita} Cew`);
-        if (item.nologo > 0) subStr.push(`${item.nologo} NoLogo`);
+        let sleeveArr = [];
+        if (item.pdk > 0) sleeveArr.push(`<span class="badge-sleeve-pdk">${item.pdk} Lengan Pendek</span>`);
+        if (item.pjg > 0) sleeveArr.push(`<span class="badge-sleeve-pjg">${item.pjg} Lengan Panjang</span>`);
 
-        return `
-          <div class="sheet-size-chip">
-            <span class="chip-size-name">${s}</span>
-            <span class="chip-size-qty">${item.total} PCS</span>
-            ${subStr.length > 0 ? `<span class="chip-size-sub">(${subStr.join(' • ')})</span>` : ''}
-          </div>
+        let genderArr = [];
+        if (item.pria > 0) genderArr.push(`<span class="badge-gender-m">${item.pria} Model Laki-Laki</span>`);
+        if (item.wanita > 0) genderArr.push(`<span class="badge-gender-f">${item.wanita} Model Perempuan</span>`);
+
+        let logoArr = [];
+        if (item.logo > 0) logoArr.push(`<span class="badge-logo-yes">${item.logo} Pakai Logo</span>`);
+        if (item.nologo > 0) logoArr.push(`<span class="badge-logo-no">${item.nologo} Tanpa Logo</span>`);
+
+        rowsHtml += `
+          <tr>
+            <td class="col-size-code"><strong>${size}</strong></td>
+            <td class="col-size-qty"><strong>${item.total}</strong> PCS</td>
+            <td class="col-size-detail">${sleeveArr.join(' &bull; ')}</td>
+            <td class="col-size-detail">${genderArr.join(' &bull; ')}</td>
+            <td class="col-size-detail">${logoArr.join(' &bull; ')}</td>
+          </tr>
         `;
-      }).join('');
+      });
+
+      const grandTotalHtml = `
+        <tr class="row-grand-total">
+          <td class="col-size-code">TOTAL</td>
+          <td class="col-size-qty"><strong>${totalQty}</strong> PCS</td>
+          <td class="col-size-detail"><span class="badge-sleeve-pdk">${grandPdk} Pendek</span> &bull; <span class="badge-sleeve-pjg">${grandPjg} Panjang</span></td>
+          <td class="col-size-detail"><span class="badge-gender-m">${grandPria} Laki-Laki</span> &bull; <span class="badge-gender-f">${grandWanita} Perempuan</span></td>
+          <td class="col-size-detail"><span class="badge-logo-yes">${grandLogo} Logo</span> &bull; <span class="badge-logo-no">${grandNoLogo} Tanpa Logo</span></td>
+        </tr>
+      `;
 
       summaryHtml = `
-        <div class="sheet-summary-box">
-          <div class="sheet-summary-header">
-            <span class="title-txt">RINCIAN UKURAN &amp; DETAIL PRODUKSI</span>
-            <span class="total-pill">TOTAL: ${totalQty} PCS</span>
+        <div class="size-table-wrapper">
+          <div class="size-table-title">
+            <span>TABEL RINCIAN UKURAN &amp; SPESIFIKASI PRODUKSI</span>
+            <span class="total-badge">TOTAL ORDER: ${totalQty} PCS</span>
           </div>
-          <div class="sheet-summary-body">
-            ${sizeItemsHtml}
-          </div>
+          <table class="lk-size-breakdown-table">
+            <thead>
+              <tr>
+                <th style="width: 12%;">UKURAN</th>
+                <th style="width: 16%;">JUMLAH</th>
+                <th style="width: 26%;">JENIS LENGAN</th>
+                <th style="width: 26%;">MODEL GENDER</th>
+                <th style="width: 20%;">LOGO / EMBLEM</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+              ${grandTotalHtml}
+            </tbody>
+          </table>
         </div>
       `;
     }
