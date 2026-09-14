@@ -1811,3 +1811,22 @@ textarea:focus::placeholder {
   }
 }
 
+/* FORCE HIDE ANY SIZE SUMMARY OR BREAKDOWN TABLES */
+.size-table-wrapper,
+#sheet-size-summary,
+#p2-size-summary,
+.p2-size-summary,
+.sheet-size-summary,
+.size-summary-box,
+.lk-size-breakdown-table {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+

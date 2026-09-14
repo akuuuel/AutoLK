@@ -345,7 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.lucide) lucide.createIcons();
 
-    // 3. Update Total Pcs field automatically
+    // 3. Update Total Pcs field automatically & Purge any size breakdown table elements from DOM
+    document.querySelectorAll('.size-table-wrapper, #sheet-size-summary, #p2-size-summary, .p2-size-summary, .sheet-size-summary, .size-summary-box, .lk-size-breakdown-table').forEach(el => el.remove());
     if (totalQty > 0) {
       if (inputTotalPcs) {
         inputTotalPcs.value = `${totalQty} PCS`;

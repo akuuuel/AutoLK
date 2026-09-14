@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/style.css?v=13">
+  <link rel="stylesheet" href="css/style.css?v=14">
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
@@ -650,15 +650,13 @@
 
   <!-- BUNDLED LIBRARIES -->
   <script src="html2canvas.min.js"></script>
-  <script src="js/app.js?v=13"></script>
+  <script src="js/app.js?v=14"></script>
 
-  <!-- Force Clear Cache & Unregister Old SW for Instant Updates -->
+  <!-- Force Clear Cache & Purge Size Tables for Instant Updates -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for (let reg of registrations) {
-          reg.unregister();
-        }
+        for (let reg of registrations) reg.unregister();
       });
     }
     if ('caches' in window) {
@@ -666,6 +664,9 @@
         for (let name of names) caches.delete(name);
       });
     }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.size-table-wrapper, #sheet-size-summary, #p2-size-summary, .p2-size-summary, .sheet-size-summary, .size-summary-box, .lk-size-breakdown-table').forEach(el => el.remove());
+    });
   </script>
 </body>
 </html>
