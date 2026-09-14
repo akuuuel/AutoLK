@@ -1142,28 +1142,66 @@ body {
   gap: 6px;
 }
 
-.size-badge {
+.size-badge-box {
   background-color: var(--accent-blue);
   color: #ffffff;
-  padding: 3px 8px;
-  border-radius: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-.size-badge strong {
+.size-badge-box .badge-title {
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.size-badge-box strong {
   background: rgba(255, 255, 255, 0.25);
-  padding: 1px 5px;
-  border-radius: 3px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.size-badge-box small {
+  font-size: 0.7rem;
+  opacity: 0.9;
 }
 
 .badge-empty {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-style: italic;
+}
+
+.tag-sleeve-long {
+  background: #dbeafe;
+  color: #1e40af;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.tag-gender-f {
+  background: #fce7f3;
+  color: #9d174d;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.tag-no-logo {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
 }
 
 /* SHEET PLAYER TABLE ON LK CANVAS */

@@ -254,8 +254,8 @@
               <i data-lucide="zap"></i> Fast Import (Tempel Data Excel/WA)
             </div>
             <div class="form-group">
-              <label for="input-quick-paste">Format: Nama, No, Size (1 Per Baris)</label>
-              <textarea id="input-quick-paste" rows="3" placeholder="Contoh:&#10;AAN, 10, L&#10;IKMAL, 7, XL&#10;RAYYAN, 9, M"></textarea>
+              <label for="input-quick-paste">Format Tempel (Support: Nama, No, Size, Lengan, Gender, Logo):</label>
+              <textarea id="input-quick-paste" rows="3" placeholder="Contoh:&#10;1. AAN - 10 - M - Panjang - Pria - Logo&#10;2. IKMAL - 7 - M - Pendek - Pria - Logo&#10;3. RINA - 05 - S - Panjang - Wanita - Tanpa Logo"></textarea>
             </div>
             <div class="form-row margin-bottom-sm">
               <button type="button" id="btn-parse-quick" class="btn btn-sm btn-outline flex-1">
@@ -267,18 +267,21 @@
             </div>
 
             <div class="section-title margin-top-md">
-              <i data-lucide="users"></i> Daftar Pemesan & Size
+              <i data-lucide="users"></i> Daftar Pemesan &amp; Variasi Detail
             </div>
 
             <div class="player-table-container">
               <table class="player-input-table">
                 <thead>
                   <tr>
-                    <th style="width: 32px;">No</th>
-                    <th>Nama Player</th>
-                    <th style="width: 65px;">No</th>
-                    <th style="width: 80px;">Size</th>
-                    <th style="width: 32px;"></th>
+                    <th style="width: 22px;">No</th>
+                    <th style="min-width: 90px;">Nama</th>
+                    <th style="width: 42px;">No</th>
+                    <th style="width: 52px;">Size</th>
+                    <th style="width: 76px;">Lengan</th>
+                    <th style="width: 82px;">Gender</th>
+                    <th style="width: 72px;">Logo</th>
+                    <th style="width: 26px;"></th>
                   </tr>
                 </thead>
                 <tbody id="player-table-body">
@@ -578,10 +581,13 @@
               <table class="p2-player-table">
                 <thead>
                   <tr>
-                    <th style="width: 45px;">NO</th>
+                    <th style="width: 35px;">NO</th>
                     <th>NAMA PLAYER / PEMESAN</th>
-                    <th style="width: 140px;">NO. PUNGGUNG</th>
-                    <th style="width: 100px;">UKURAN / SIZE</th>
+                    <th style="width: 100px;">NO. PUNGGUNG</th>
+                    <th style="width: 75px;">UKURAN</th>
+                    <th style="width: 95px;">LENGAN</th>
+                    <th style="width: 95px;">GENDER</th>
+                    <th style="width: 85px;">LOGO</th>
                   </tr>
                 </thead>
                 <tbody id="p2-player-table-body">

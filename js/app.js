@@ -244,8 +244,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputTotalPcs = document.getElementById('input-total-pcs');
 
   let playersData = [
-    { name: 'AAN', number: '10', size: 'L' },
-    { name: 'IKMAL', number: '7', size: 'XL' }
+    { name: 'AAN', number: '10', size: 'M', sleeve: 'Panjang', gender: 'Laki-Laki', logo: true },
+    { name: 'IKMAL', number: '7', size: 'M', sleeve: 'Pendek', gender: 'Laki-Laki', logo: true },
+    { name: 'RINA', number: '05', size: 'S', sleeve: 'Panjang', gender: 'Perempuan', logo: false }
   ];
 
   function renderPlayerTables() {
@@ -254,12 +255,29 @@ document.addEventListener('DOMContentLoaded', () => {
     playerTableBody.innerHTML = '';
     p2PlayerBody.innerHTML = '';
 
-    const sizeCounts = {};
-    const totalQty = playersData.length;
+    const sizeMap = {};
+    let totalQty = playersData.length;
+    let grandPjg = 0, grandPdk = 0, grandPria = 0, grandWanita = 0, grandLogo = 0, grandNoLogo = 0;
 
     playersData.forEach((player, idx) => {
       const sizeVal = (player.size || 'M').toUpperCase();
-      sizeCounts[sizeVal] = (sizeCounts[sizeVal] || 0) + 1;
+      const sleeveVal = player.sleeve || 'Pendek';
+      const genderVal = player.gender || 'Laki-Laki';
+      const isLogo = player.logo !== false;
+
+      if (!sizeMap[sizeVal]) {
+        sizeMap[sizeVal] = { total: 0, pjg: 0, pdk: 0, pria: 0, wanita: 0, logo: 0, nologo: 0 };
+      }
+      sizeMap[sizeVal].total += 1;
+
+      if (sleeveVal === 'Panjang') { sizeMap[sizeVal].pjg++; grandPjg++; }
+      else { sizeMap[sizeVal].pdk++; grandPdk++; }
+
+      if (genderVal === 'Perempuan') { sizeMap[sizeVal].wanita++; grandWanita++; }
+      else { sizeMap[sizeVal].pria++; grandPria++; }
+
+      if (isLogo) { sizeMap[sizeVal].logo++; grandLogo++; }
+      else { sizeMap[sizeVal].nologo++; grandNoLogo++; }
 
       // 1. Sidebar Input Row
       const trInput = document.createElement('tr');
@@ -269,6 +287,24 @@ document.addEventListener('DOMContentLoaded', () => {
         <td><input type="text" class="inp-player-num" value="${player.number || ''}" placeholder="No"></td>
         <td><input type="text" class="inp-player-size" value="${player.size || 'M'}" placeholder="Size"></td>
         <td>
+          <select class="inp-player-sleeve">
+            <option value="Pendek" ${sleeveVal === 'Pendek' ? 'selected' : ''}>Pendek</option>
+            <option value="Panjang" ${sleeveVal === 'Panjang' ? 'selected' : ''}>Panjang</option>
+          </select>
+        </td>
+        <td>
+          <select class="inp-player-gender">
+            <option value="Laki-Laki" ${genderVal === 'Laki-Laki' ? 'selected' : ''}>Laki-Laki</option>
+            <option value="Perempuan" ${genderVal === 'Perempuan' ? 'selected' : ''}>Perempuan</option>
+          </select>
+        </td>
+        <td>
+          <select class="inp-player-logo">
+            <option value="true" ${isLogo ? 'selected' : ''}>Logo</option>
+            <option value="false" ${!isLogo ? 'selected' : ''}>No Logo</option>
+          </select>
+        </td>
+        <td>
           <button type="button" class="btn-del-row" data-idx="${idx}" title="Hapus"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
         </td>
       `;
@@ -277,11 +313,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const inpName = trInput.querySelector('.inp-player-name');
       const inpNum = trInput.querySelector('.inp-player-num');
       const inpSize = trInput.querySelector('.inp-player-size');
+      const inpSleeve = trInput.querySelector('.inp-player-sleeve');
+      const inpGender = trInput.querySelector('.inp-player-gender');
+      const inpLogo = trInput.querySelector('.inp-player-logo');
       const btnDel = trInput.querySelector('.btn-del-row');
 
       inpName.addEventListener('input', (e) => { playersData[idx].name = e.target.value; renderSheetPlayerTableOnly(); });
       inpNum.addEventListener('input', (e) => { playersData[idx].number = e.target.value; renderSheetPlayerTableOnly(); });
       inpSize.addEventListener('input', (e) => { playersData[idx].size = e.target.value; renderPlayerTables(); });
+      inpSleeve.addEventListener('change', (e) => { playersData[idx].sleeve = e.target.value; renderPlayerTables(); });
+      inpGender.addEventListener('change', (e) => { playersData[idx].gender = e.target.value; renderPlayerTables(); });
+      inpLogo.addEventListener('change', (e) => { playersData[idx].logo = e.target.value === 'true'; renderPlayerTables(); });
       btnDel.addEventListener('click', () => { playersData.splice(idx, 1); renderPlayerTables(); });
 
       // 2. Sheet Page 2 Output Row
@@ -291,6 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="cell-left">${player.name || '-'}</td>
         <td>${player.number || '-'}</td>
         <td><strong>${(player.size || '-').toUpperCase()}</strong></td>
+        <td>${sleeveVal === 'Panjang' ? '<span class="tag-sleeve-long">PANJANG</span>' : 'PENDEK'}</td>
+        <td>${genderVal === 'Perempuan' ? '<span class="tag-gender-f">PEREMPUAN</span>' : 'LAKI-LAKI'}</td>
+        <td>${isLogo ? 'LOGO' : '<span class="tag-no-logo">TANPA LOGO</span>'}</td>
       `;
       p2PlayerBody.appendChild(trSheet);
     });
@@ -303,19 +348,45 @@ document.addEventListener('DOMContentLoaded', () => {
       if (totalQty === 0) {
         sizeSummaryList.innerHTML = '<span class="badge-empty">Belum ada data player</span>';
       } else {
-        Object.keys(sizeCounts).forEach(size => {
-          const badge = document.createElement('span');
-          badge.className = 'size-badge';
-          badge.innerHTML = `${size}: <strong>${sizeCounts[size]}</strong>`;
+        Object.keys(sizeMap).forEach(size => {
+          const item = sizeMap[size];
+          const badge = document.createElement('div');
+          badge.className = 'size-badge-box';
+          let details = [];
+          if (item.pjg > 0 && item.pdk > 0) details.push(`${item.pjg} Pjg, ${item.pdk} Pdk`);
+          else if (item.pjg > 0) details.push(`${item.pjg} Pjg`);
+          else details.push(`${item.pdk} Pdk`);
+
+          if (item.wanita > 0) details.push(`${item.wanita} Cew`);
+          if (item.nologo > 0) details.push(`${item.nologo} NoLogo`);
+
+          badge.innerHTML = `<span class="badge-title">${size}</span> <strong>${item.total}</strong> <small>(${details.join(' | ')})</small>`;
           sizeSummaryList.appendChild(badge);
         });
       }
     }
 
     // 4. Render Size Summary Bar in Page 1 and Page 2 Sheets
-    const summaryHtml = totalQty === 0 
-      ? '<span>RINCIAN UKURAN: BELUM ADA DATA</span>'
-      : `<span>RINCIAN UKURAN: ${Object.keys(sizeCounts).map(s => `${s}: ${sizeCounts[s]} PCS`).join(' &nbsp;|&nbsp; ')} &nbsp;[TOTAL: ${totalQty} PCS]</span>`;
+    let summaryHtml = '';
+    if (totalQty === 0) {
+      summaryHtml = '<span>RINCIAN UKURAN: BELUM ADA DATA</span>';
+    } else {
+      const sizeItemsStr = Object.keys(sizeMap).map(s => {
+        const item = sizeMap[s];
+        let subStr = [];
+        if (item.pjg > 0 && item.pdk > 0) subStr.push(`${item.pjg} Pjg, ${item.pdk} Pdk`);
+        else if (item.pjg > 0) subStr.push(`${item.pjg} Pjg`);
+        
+        if (item.wanita > 0) subStr.push(`${item.wanita} Pn`);
+        if (item.nologo > 0) subStr.push(`${item.nologo} NoLogo`);
+
+        return `${s}: ${item.total} PCS${subStr.length > 0 ? ` (${subStr.join(', ')})` : ''}`;
+      }).join(' &nbsp;|&nbsp; ');
+
+      const totalBreakdown = `TOTAL: ${totalQty} PCS [Pdk: ${grandPdk}, Pjg: ${grandPjg} | Pria: ${grandPria}, Cew: ${grandWanita} | Logo: ${grandLogo}, NoLogo: ${grandNoLogo}]`;
+
+      summaryHtml = `<span><strong>RINCIAN UKURAN:</strong> ${sizeItemsStr} &nbsp; [${totalBreakdown}]</span>`;
+    }
 
     if (sheetSizeSummary) sheetSizeSummary.innerHTML = summaryHtml;
     if (p2SizeSummary) p2SizeSummary.innerHTML = summaryHtml;
@@ -331,12 +402,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!p2PlayerBody) return;
     p2PlayerBody.innerHTML = '';
     playersData.forEach((player, idx) => {
+      const sleeveVal = player.sleeve || 'Pendek';
+      const genderVal = player.gender || 'Laki-Laki';
+      const isLogo = player.logo !== false;
       const trSheet = document.createElement('tr');
       trSheet.innerHTML = `
         <td>${idx + 1}</td>
         <td class="cell-left">${player.name || '-'}</td>
         <td>${player.number || '-'}</td>
         <td><strong>${(player.size || '-').toUpperCase()}</strong></td>
+        <td>${sleeveVal === 'Panjang' ? '<span class="tag-sleeve-long">PANJANG</span>' : 'PENDEK'}</td>
+        <td>${genderVal === 'Perempuan' ? '<span class="tag-gender-f">PEREMPUAN</span>' : 'LAKI-LAKI'}</td>
+        <td>${isLogo ? 'LOGO' : '<span class="tag-no-logo">TANPA LOGO</span>'}</td>
       `;
       p2PlayerBody.appendChild(trSheet);
     });
@@ -344,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnAddRow) {
     btnAddRow.addEventListener('click', () => {
-      playersData.push({ name: '', number: '', size: 'M' });
+      playersData.push({ name: '', number: '', size: 'M', sleeve: 'Pendek', gender: 'Laki-Laki', logo: true });
       renderPlayerTables();
     });
   }
@@ -359,26 +436,47 @@ document.addEventListener('DOMContentLoaded', () => {
     clean = clean.replace(/^[#0-9]+[\.\-\)\s]+/, '').trim();
     if (!clean) return null;
 
+    let sleeve = 'Pendek';
+    let gender = 'Laki-Laki';
+    let logo = true;
+
+    // Detect Sleeve keyword
+    if (/\b(panjang|pjg|pj|long|longsleeve|lengan\s*panjang)\b/i.test(clean)) {
+      sleeve = 'Panjang';
+    }
+
+    // Detect Gender keyword
+    if (/\b(perempuan|wanita|cewe|cewek|female|p|cew)\b/i.test(clean)) {
+      gender = 'Perempuan';
+    }
+
+    // Detect Logo keyword
+    if (/\b(tanpa\s*logo|no\s*logo|non\s*logo|nologo|tanpa|tidak\s*logo)\b/i.test(clean)) {
+      logo = false;
+    }
+
     // Remove brackets around size e.g. "AAN (XL)" -> "AAN XL"
     clean = clean.replace(/\((XS|S|M|L|XL|2XL|XXL|3XL|4XL|5XL)\)/gi, '$1');
 
     // Case A: Separated by tab, comma, semicolon, dash, or pipe
     if (/[,;\t\-\|]/.test(clean)) {
       const parts = clean.split(/[,;\t\-\|]/).map(p => p.trim()).filter(Boolean);
-      if (parts.length >= 3) {
-        if (knownSizeRegex.test(parts[1])) {
-          return { name: parts[0], number: parts[2] || '-', size: parts[1].toUpperCase() };
-        }
-        return { name: parts[0], number: parts[1], size: (parts[2] || 'M').toUpperCase() };
-      } else if (parts.length === 2) {
-        if (knownSizeRegex.test(parts[1])) {
-          return { name: parts[0], number: '-', size: parts[1].toUpperCase() };
-        } else if (/^[0-9]+$/.test(parts[1])) {
-          return { name: parts[0], number: parts[1], size: 'M' };
-        } else {
-          return { name: parts[0], number: '-', size: parts[1].toUpperCase() };
+      let name = parts[0] || 'PLAYER';
+      let number = '-';
+      let size = 'M';
+
+      for (let i = 1; i < parts.length; i++) {
+        const p = parts[i];
+        if (knownSizeRegex.test(p)) {
+          size = p.toUpperCase();
+        } else if (/^\d{1,3}$/.test(p) && number === '-') {
+          number = p;
+        } else if (name === parts[0] && !/^(panjang|pendek|pria|wanita|logo|no logo|tanpa logo)$/i.test(p) && number === '-' && !knownSizeRegex.test(p)) {
+          number = p;
         }
       }
+
+      return { name, number, size, sleeve, gender, logo };
     }
 
     // Case B: Space separated or unformatted line
@@ -389,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sizeMatch = clean.match(knownSizeRegex);
     if (sizeMatch) {
       size = sizeMatch[0].toUpperCase();
-      name = clean.replace(sizeMatch[0], '').trim();
+      name = name.replace(sizeMatch[0], '').trim();
     }
 
     const numMatch = name.match(/#?(\d{1,3})\b/);
@@ -398,9 +496,11 @@ document.addEventListener('DOMContentLoaded', () => {
       name = name.replace(numMatch[0], '').trim();
     }
 
+    // Clean up keywords from name
+    name = name.replace(/\b(panjang|pjg|pj|pendek|pdk|pd|perempuan|wanita|pria|laki|cowo|cewe|logo|no\s*logo|tanpa\s*logo|non\s*logo)\b/gi, '').trim();
     name = name.replace(/^[\-\,\.\s]+|[\-\,\.\s]+$/g, '').trim();
 
-    return { name: name || 'PLAYER', number, size };
+    return { name: name || 'PLAYER', number, size, sleeve, gender, logo };
   }
 
   function executeImportData() {
