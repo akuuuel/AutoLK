@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=10">
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
@@ -664,14 +664,17 @@
 
   <!-- BUNDLED LIBRARIES -->
   <script src="html2canvas.min.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=10"></script>
 
   <!-- PWA Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then((reg) => console.log('[AutoLK] Service Worker registered:', reg.scope))
+        navigator.serviceWorker.register('./sw.js?v=10')
+          .then((reg) => {
+            reg.update();
+            console.log('[AutoLK] Service Worker registered & updated:', reg.scope);
+          })
           .catch((err) => console.warn('[AutoLK] Service Worker failed:', err));
       });
     }

@@ -1,58 +1,53 @@
 /* ==========================================================================
    AutoLK Generator — Service Worker (PWA)
-   Strategi: Cache First + Network Fallback
+   Strategi: Network First + Cache Fallback
    ========================================================================== */
 
-const CACHE_NAME = 'autolk-v9';
+const CACHE_NAME = 'autolk-v10';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/css/style.css',
-  '/js/app.js',
+  '/css/style.css?v=10',
+  '/js/app.js?v=10',
   '/html2canvas.min.js',
   '/icons/icon-192.png',
   '/icons/icon-512.png'
 ];
 
-// ── INSTALL: simpan aset ke cache ──────────────────────────────────────────
+// ── INSTALL: simpan aset baru & terapkan langsung ──────────────────────────
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[AutoLK SW] Caching app shell...');
+      console.log('[AutoLK SW] Caching fresh app shell...');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
 });
 
-// ── ACTIVATE: hapus cache lama ─────────────────────────────────────────────
+// ── ACTIVATE: bersihkan SEMUA cache lama & klaim klien langsung ────────────
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME)
-          .map((key) => {
-            console.log('[AutoLK SW] Deleting old cache:', key);
-            return caches.delete(key);
-          })
+        keys.map((key) => {
+          console.log('[AutoLK SW] Clearing old cache key:', key);
+          return caches.delete(key);
+        })
       );
     }).then(() => self.clients.claim())
   );
 });
 
-// ── FETCH: Cache First, lalu fallback ke network ───────────────────────────
+// ── FETCH: Network First (selalu ambil file terbaru jika online) ───────────
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   if (!event.request.url.startsWith('http')) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then((networkResponse) => {
+    fetch(event.request)
+      .then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -60,11 +55,9 @@ self.addEventListener('fetch', (event) => {
           });
         }
         return networkResponse;
-      }).catch(() => {
-        if (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html')) {
-          return caches.match('/index.html');
-        }
-      });
-    })
+      })
+      .catch(() => {
+        return caches.match(event.request);
+      })
   );
 });
