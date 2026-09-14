@@ -478,27 +478,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (p2SizeSummary) p2SizeSummary.innerHTML = summaryHtml;
 
-    // 5. Update Total Pcs & Notes fields automatically
+    // 5. Update Total Pcs field automatically
     if (totalQty > 0) {
       if (inputTotalPcs) {
         inputTotalPcs.value = `${totalQty} PCS`;
         inputTotalPcs.dispatchEvent(new Event('input'));
-      }
-      const inpKetLengan = document.getElementById('input-ket-lengan');
-      const inpKetGender = document.getElementById('input-ket-gender');
-      const inpKetLogo = document.getElementById('input-ket-logo');
-
-      if (inpKetLengan) {
-        inpKetLengan.value = `PENDEK: ${grandPdk} | PANJANG: ${grandPjg}`;
-        inpKetLengan.dispatchEvent(new Event('input'));
-      }
-      if (inpKetGender) {
-        inpKetGender.value = `LAKI-LAKI: ${grandPria} | PEREMPUAN: ${grandWanita}`;
-        inpKetGender.dispatchEvent(new Event('input'));
-      }
-      if (inpKetLogo) {
-        inpKetLogo.value = `PAKAI LOGO: ${grandLogo} | NON LOGO: ${grandNoLogo}`;
-        inpKetLogo.dispatchEvent(new Event('input'));
       }
     }
   }
