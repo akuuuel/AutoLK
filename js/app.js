@@ -345,63 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.lucide) lucide.createIcons();
 
-    // 3. Render Size Summary Table in Sidebar (Tab 4)
-    if (sizeSummaryList) {
-      sizeSummaryList.innerHTML = '';
-      if (totalQty === 0) {
-        sizeSummaryList.innerHTML = '<span class="badge-empty">Belum ada data player</span>';
-      } else {
-        const table = document.createElement('table');
-        table.className = 'sidebar-summary-table';
-        
-        let tableRowsHtml = '';
-        Object.keys(sizeMap).forEach(size => {
-          const item = sizeMap[size];
-          
-          let sleeveStr = [];
-          if (item.pdk > 0) sleeveStr.push(`${item.pdk} Pendek`);
-          if (item.pjg > 0) sleeveStr.push(`${item.pjg} Panjang`);
-
-          let genderStr = [];
-          if (item.pria > 0) genderStr.push(`${item.pria} Laki-Laki`);
-          if (item.wanita > 0) genderStr.push(`${item.wanita} Perempuan`);
-
-          let logoStr = [];
-          if (item.logo > 0) logoStr.push(`${item.logo} Logo`);
-          if (item.nologo > 0) logoStr.push(`${item.nologo} No Logo`);
-
-          tableRowsHtml += `
-            <tr>
-              <td class="col-size"><span class="size-pill">${size}</span></td>
-              <td class="col-qty"><strong>${item.total}</strong> <small>PCS</small></td>
-              <td class="col-detail">
-                <div class="detail-tags">
-                  <span class="tag-chip sleeve">${sleeveStr.join(' • ')}</span>
-                  <span class="tag-chip gender">${genderStr.join(' • ')}</span>
-                  ${logoStr.length > 0 ? `<span class="tag-chip logo">${logoStr.join(' • ')}</span>` : ''}
-                </div>
-              </td>
-            </tr>
-          `;
-        });
-
-        table.innerHTML = `
-          <thead>
-            <tr>
-              <th>UKURAN</th>
-              <th>JUMLAH</th>
-              <th>RINCIAN DETAIL (LENGAN, GENDER, LOGO)</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${tableRowsHtml}
-          </tbody>
-        `;
-        sizeSummaryList.appendChild(table);
-      }
-    }
-
-    // 4. Update Total Pcs field automatically
+    // 3. Update Total Pcs field automatically
     if (totalQty > 0) {
       if (inputTotalPcs) {
         inputTotalPcs.value = `${totalQty} PCS`;
