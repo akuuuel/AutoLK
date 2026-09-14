@@ -1,0 +1,41 @@
+{
+  "name": "AutoLK Generator - Lembar Kerja Baju",
+  "short_name": "AutoLK",
+  "description": "Generator Lembar Kerja Produksi Baju — isi data, upload mockup, dan hasilkan LK dalam bentuk gambar.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0C3F87",
+  "theme_color": "#0C3F87",
+  "lang": "id",
+  "scope": "./",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
