@@ -345,50 +345,105 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.lucide) lucide.createIcons();
 
-    // 3. Render Size Badges in Sidebar
+    // 3. Render Size Summary Table in Sidebar (Tab 4)
     if (sizeSummaryList) {
       sizeSummaryList.innerHTML = '';
       if (totalQty === 0) {
         sizeSummaryList.innerHTML = '<span class="badge-empty">Belum ada data player</span>';
       } else {
+        const table = document.createElement('table');
+        table.className = 'sidebar-summary-table';
+        
+        let tableRowsHtml = '';
         Object.keys(sizeMap).forEach(size => {
           const item = sizeMap[size];
-          const badge = document.createElement('div');
-          badge.className = 'size-badge-box';
-          let details = [];
-          if (item.pjg > 0 && item.pdk > 0) details.push(`${item.pjg} Pjg, ${item.pdk} Pdk`);
-          else if (item.pjg > 0) details.push(`${item.pjg} Pjg`);
-          else details.push(`${item.pdk} Pdk`);
+          
+          let sleeveStr = [];
+          if (item.pdk > 0) sleeveStr.push(`${item.pdk} Pendek`);
+          if (item.pjg > 0) sleeveStr.push(`${item.pjg} Panjang`);
 
-          if (item.wanita > 0) details.push(`${item.wanita} Cew`);
-          if (item.nologo > 0) details.push(`${item.nologo} NoLogo`);
+          let genderStr = [];
+          if (item.pria > 0) genderStr.push(`${item.pria} Pria`);
+          if (item.wanita > 0) genderStr.push(`${item.wanita} Wanita`);
 
-          badge.innerHTML = `<span class="badge-title">${size}</span> <strong>${item.total}</strong> <small>(${details.join(' | ')})</small>`;
-          sizeSummaryList.appendChild(badge);
+          let logoStr = [];
+          if (item.logo > 0) logoStr.push(`${item.logo} Logo`);
+          if (item.nologo > 0) logoStr.push(`${item.nologo} No Logo`);
+
+          tableRowsHtml += `
+            <tr>
+              <td class="col-size"><span class="size-pill">${size}</span></td>
+              <td class="col-qty"><strong>${item.total}</strong> <small>PCS</small></td>
+              <td class="col-detail">
+                <div class="detail-tags">
+                  <span class="tag-chip sleeve">${sleeveStr.join(' + ')}</span>
+                  <span class="tag-chip gender">${genderStr.join(' + ')}</span>
+                  ${logoStr.length > 0 ? `<span class="tag-chip logo">${logoStr.join(' + ')}</span>` : ''}
+                </div>
+              </td>
+            </tr>
+          `;
         });
+
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>SIZE</th>
+              <th>TOTAL</th>
+              <th>RINCIAN VARIASI</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRowsHtml}
+          </tbody>
+        `;
+        sizeSummaryList.appendChild(table);
       }
     }
 
     // 4. Render Size Summary Bar in Page 1 and Page 2 Sheets
     let summaryHtml = '';
     if (totalQty === 0) {
-      summaryHtml = '<span>RINCIAN UKURAN: BELUM ADA DATA</span>';
+      summaryHtml = `
+        <div class="sheet-summary-box">
+          <div class="sheet-summary-header">
+            <span>RINCIAN UKURAN &amp; SPESIFIKASI</span>
+            <span class="total-pill">TOTAL: 0 PCS</span>
+          </div>
+          <div class="sheet-summary-body-empty">BELUM ADA DATA PEMESAN</div>
+        </div>
+      `;
     } else {
-      const sizeItemsStr = Object.keys(sizeMap).map(s => {
+      const sizeItemsHtml = Object.keys(sizeMap).map(s => {
         const item = sizeMap[s];
         let subStr = [];
-        if (item.pjg > 0 && item.pdk > 0) subStr.push(`${item.pjg} Pjg, ${item.pdk} Pdk`);
+        if (item.pjg > 0 && item.pdk > 0) subStr.push(`${item.pdk} Pdk, ${item.pjg} Pjg`);
         else if (item.pjg > 0) subStr.push(`${item.pjg} Pjg`);
-        
-        if (item.wanita > 0) subStr.push(`${item.wanita} Pn`);
+        else if (item.pdk > 0) subStr.push(`${item.pdk} Pdk`);
+
+        if (item.wanita > 0) subStr.push(`${item.wanita} Cew`);
         if (item.nologo > 0) subStr.push(`${item.nologo} NoLogo`);
 
-        return `${s}: ${item.total} PCS${subStr.length > 0 ? ` (${subStr.join(', ')})` : ''}`;
-      }).join(' &nbsp;|&nbsp; ');
+        return `
+          <div class="sheet-size-chip">
+            <span class="chip-size-name">${s}</span>
+            <span class="chip-size-qty">${item.total} PCS</span>
+            ${subStr.length > 0 ? `<span class="chip-size-sub">(${subStr.join(' • ')})</span>` : ''}
+          </div>
+        `;
+      }).join('');
 
-      const totalBreakdown = `TOTAL: ${totalQty} PCS [Pdk: ${grandPdk}, Pjg: ${grandPjg} | Pria: ${grandPria}, Cew: ${grandWanita} | Logo: ${grandLogo}, NoLogo: ${grandNoLogo}]`;
-
-      summaryHtml = `<span><strong>RINCIAN UKURAN:</strong> ${sizeItemsStr} &nbsp; [${totalBreakdown}]</span>`;
+      summaryHtml = `
+        <div class="sheet-summary-box">
+          <div class="sheet-summary-header">
+            <span class="title-txt">RINCIAN UKURAN &amp; DETAIL PRODUKSI</span>
+            <span class="total-pill">TOTAL: ${totalQty} PCS</span>
+          </div>
+          <div class="sheet-summary-body">
+            ${sizeItemsHtml}
+          </div>
+        </div>
+      `;
     }
 
     if (sheetSizeSummary) sheetSizeSummary.innerHTML = summaryHtml;

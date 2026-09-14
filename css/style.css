@@ -1196,39 +1196,80 @@ textarea:focus::placeholder {
   margin-bottom: 8px;
 }
 
-.summary-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* SIDEBAR SIZE BREAKDOWN TABLE (TAB 4) */
+.sidebar-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
 }
 
-.size-badge-box {
-  background-color: var(--accent-blue);
+.sidebar-summary-table th {
+  background-color: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-summary-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+  vertical-align: middle;
+}
+
+.sidebar-summary-table .col-size {
+  width: 45px;
+}
+
+.sidebar-summary-table .col-qty {
+  width: 65px;
   color: #ffffff;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
+}
+
+.size-pill {
+  background: var(--accent-blue);
+  color: #ffffff;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
   gap: 4px;
 }
 
-.size-badge-box .badge-title {
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.size-badge-box strong {
-  background: rgba(255, 255, 255, 0.25);
-  padding: 1px 6px;
+.tag-chip {
+  padding: 2px 6px;
   border-radius: 4px;
-  font-weight: 800;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: inline-block;
 }
 
-.size-badge-box small {
-  font-size: 0.7rem;
-  opacity: 0.9;
+.tag-chip.sleeve {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.tag-chip.gender {
+  background: rgba(236, 72, 153, 0.2);
+  color: #fbcfe8;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.tag-chip.logo {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .badge-empty {
@@ -1310,18 +1351,93 @@ textarea:focus::placeholder {
   text-align: left;
 }
 
-.sheet-size-summary {
-  background-color: #f8fafc;
+/* SHEET CANVAS SIZE SUMMARY BOX (PAGE 1 & PAGE 2) */
+.sheet-size-summary,
+.p2-size-summary {
+  background: #ffffff;
   border: 2px solid var(--lk-border);
-  padding: 6px 10px;
-  font-size: 11.5px;
+  padding: 0;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sheet-summary-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sheet-summary-header {
+  background-color: #0c3f87 !important;
+  color: #ffffff !important;
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Oswald', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.sheet-summary-header .total-pill {
+  background: #ffffff;
+  color: #0c3f87;
+  padding: 2px 8px;
+  border-radius: 4px;
   font-weight: 800;
-  color: #000000;
+  font-size: 12px;
+}
+
+.sheet-summary-body {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8fafc;
   align-items: center;
-  justify-content: center;
+}
+
+.sheet-summary-body-empty {
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+  text-align: center;
+}
+
+.sheet-size-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px solid var(--lk-border);
+  border-radius: 5px;
+  padding: 3px 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.chip-size-name {
+  background: #0c3f87;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.chip-size-qty {
+  font-weight: 800;
+  font-size: 12.5px;
+  color: #000000;
+}
+
+.chip-size-sub {
+  font-size: 11px;
+  color: #475569;
+  font-weight: 600;
 }
 
 /* ==========================================================================
@@ -1443,17 +1559,6 @@ textarea:focus::placeholder {
 
 .p2-player-table td.cell-left {
   text-align: left;
-}
-
-.p2-size-summary {
-  background-color: #f8fafc;
-  border: 2px solid var(--lk-border);
-  padding: 8px 12px;
-  font-size: 12.5px;
-  font-weight: 800;
-  color: #000000;
-  text-align: center;
-  margin-bottom: 16px;
 }
 
 .p2-signature-section {
